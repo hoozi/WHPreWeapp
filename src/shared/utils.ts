@@ -1,0 +1,1 @@
+export const hasError = (fieldsError:any):boolean => fieldsError.filter(({ errors }:any) => errors.length).length > 0;

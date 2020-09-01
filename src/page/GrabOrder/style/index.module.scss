@@ -1,0 +1,116 @@
+@import '../../../style/index.scss';
+
+.cardContainer {
+  padding: 12PX;
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 12PX);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 12PX);
+}
+.grabCard {
+  margin-bottom: 12PX;
+  border-radius: 8PX;
+  background-color: #fff;
+  box-shadow: 0 0 6PX rgba(0,0,0,.04);
+  .grabTopBar {
+    font-weight: bold;
+    border-top-left-radius: 8PX;
+    border-top-right-radius: 8PX;
+    padding:8PX 12PX;
+    font-size: 12PX;
+    line-height: 1;
+    background-color:#fffbe6;
+    color: #faad14;
+  }
+  .grabCardHeader {
+    padding: 12PX;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 1;
+    .grabCardHeaderContent {
+      display: flex;
+      align-items: center;
+      text {
+        font-size: 16PX;
+        margin-right: 6PX;
+        &:not(:first-child) {
+          display: block;
+          padding:0 6PX;
+          line-height: 16PX;
+          height: 16PX;
+          border:1px solid $color-brand;
+          color: $color-brand;
+          font-size: 12PX;
+          border-radius: 4PX;
+        }
+      }
+    }
+    .grabPrice {
+      color:$color-warning;
+      font-size: 16PX;
+    }
+
+  }
+  .grabCardBody {
+    display: flex;
+    padding: 0 12PX 12PX;
+    .grabContent {
+      flex:1;
+      color: #666;
+    }
+    .grabButtonContainer {
+      padding-left: 12PX;
+      box-sizing: border-box;
+      width: 100PX;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .grabButton {
+        border-radius: 100PX;
+        height: 32PX;
+        line-height: 32PX;
+        font-size: 14PX;
+        box-shadow: 0 0 12PX rgba(73, 98, 235, .65);
+        width: 100%;
+      }
+    }
+  }
+  &:last-child {
+    margin-bottom:0;
+  }
+}
+
+.addressItem {
+  position: relative;
+  padding-bottom: 2px;
+  .tail,
+  .dot {
+    position: absolute;
+    left:0
+  }
+  .tail {
+    height: 100%;
+    top: 12PX;
+    left: 5PX;
+    border-left: 1px dashed #c8c8c8;
+  }
+  .dot {
+    width: 7PX;
+    height: 7PX;
+    border: 2PX solid #ccc;
+    border-radius: 24PX;
+    top: 50%;
+    margin-top: -6PX;
+    z-index: 1;
+    background-color: #fff;
+  }
+  .addressContent {
+    margin-left: 16PX;
+    height: 24PX;
+    line-height: 24PX;
+  }
+  &:last-child {
+    .tail {
+      display: none;
+    }
+  }
+}

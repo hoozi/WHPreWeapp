@@ -1,0 +1,20 @@
+@import './theme.scss';
+@import './mixin.scss';
+@import './icon.scss';
+
+.at-search-bar {
+  padding: 12PX;
+}
+
+.at-search-bar__action {
+  display: none;
+}
+
+.at-search-bar__input-cnt {
+  border-radius: 8PX;
+  background-color: #f5f5f5;
+}
+
+.at-search-bar__placeholder-wrap {
+  flex-basis: 0;
+}

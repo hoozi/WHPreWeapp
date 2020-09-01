@@ -1,0 +1,139 @@
+@import '../../../style/index.scss';
+
+.container {
+  height: 100%;
+  width: 100%;
+  //background-color: #fff;
+  //padding: 16PX 6PX;
+  box-sizing: border-box;
+}
+.userCard {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 6PX rgba(0,0,0,.04);
+  padding: 16PX;
+  padding-bottom: 24PX;
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  justify-content: space-between;
+  .userContent {
+    display:flex;
+    align-items: center;
+    position: relative; 
+    z-index: 10;
+  }
+  .circleBg {
+    width: 200PX;
+    height: 200PX;
+    position: absolute;
+    right: -50PX;
+    top: -85PX;
+    border-radius: 100PX;
+    background-color: #f9f9f9;
+    z-index: 1;
+    &.circleBg1 {
+      width: 96PX;
+      height: 96PX;
+      left: -42PX;
+      top: -42PX;
+    }
+    &.circleBg2 {
+      width: 32PX;
+      height: 32PX;
+      top: 50PX;
+      left: 32%;
+    }
+    &.circleBg3 {
+      width: 64PX;
+      height: 64PX;
+      top: auto;
+      bottom: -32PX;
+      left: 40%;
+    }
+  }
+  :global {
+    .iconfont {
+      font-size: 22PX;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+      left:0;
+      bottom:0
+    }
+    .at-avatar {
+      width: 64PX;
+      height: 64PX;
+      border: 4PX solid #f0f0f0;
+    }
+  }
+  .userCardText {
+    margin-left: 12PX;
+    line-height: 1;
+    font-size: 16PX;
+    color: #333;
+  }
+  .extraText {
+    display: block;
+    color:#999;
+    font-size: 14PX;
+    margin-top: 8PX;
+  }
+}
+
+
+.menuList {
+  //margin-top: 24PX;
+  padding: 12PX 0 12PX 12PX;
+  //background-color: #fff;
+  .menuHeader {
+    background-color: #fff;
+    padding:8PX 16PX;
+    display: flex;
+    align-items: center;
+    .menuTitle {
+      margin-left: 4PX;
+    }
+  }
+  .menuBody {
+   :global {
+    .content-inner__text,.content-inner__icon {
+      font-size: 14PX;
+      z-index: 1;
+    }
+    .at-grid-item__content-inner {
+      margin-right:12PX;
+      background-color: #fff;
+      border-radius: 8PX;
+      box-shadow: 0 0 6PX rgba(0,0,0,.04);
+      position: relative;
+      overflow: hidden;
+      &:before, 
+      &:after {
+        content: '';
+        position: absolute;
+        background-color: #f9f9f9;
+        border-radius: 42PX;
+        width: 64PX;
+        height: 64PX;
+        left: -24PX;
+        top: -24PX;
+      }
+      &:after {
+        width: 36PX;
+        height: 36PX;
+        left: 42%;
+        top: 36%;
+      }
+    }
+    .at-grid__flex {
+      margin-bottom: 12PX;
+    }
+    .at-grid__flex-item:after {
+      display: none;
+    }
+   }
+  }
+}
+
+
