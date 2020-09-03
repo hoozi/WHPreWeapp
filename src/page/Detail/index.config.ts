@@ -1,5 +1,5 @@
 export default {
-  navigationBarTitleText: '我的订单',
+  navigationBarTitleText: '-',
   navigationBarBackgroundColor: '#455fe4',
   navigationBarTextStyle: 'white'
 }

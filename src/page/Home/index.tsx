@@ -2,16 +2,12 @@ import * as React from 'react';
 import * as Taro from '@tarojs/taro';
 import { View, Text, OpenData } from '@tarojs/components';
 import { AtAvatar, AtGrid } from 'taro-ui';
-import { color } from '../../constants';
 import menus from './map';
 import classNames from './style/index.module.scss';
 
 const { height, top } = Taro.getMenuButtonBoundingClientRect();
 
 export default () => {
-  Taro.useDidShow(() => {
-    Taro.hideHomeButton();
-  });
   return (
     <View className={classNames.container}>
       <View className={classNames.userCard} style={`padding-top: calc(${top}px + ${height}px)`}>

@@ -1,0 +1,12 @@
+@import '../../../style/index.scss';
+
+.topBar {
+  box-shadow: 0 0 6PX rgba(0,0,0,.04);
+  &.topBarFixed {
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index: 11;
+  }
+}

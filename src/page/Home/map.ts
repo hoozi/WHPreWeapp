@@ -18,7 +18,7 @@ export default [
       color: color.warningColor,
       size: 30
     },
-    value: '订单历史',
+    value: '我的订单',
     url: '/page/History/index'
   }
 ]

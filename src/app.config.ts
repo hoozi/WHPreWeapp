@@ -1,16 +1,44 @@
 export default {
   pages: [
-    'page/CheckLogin/index',
-    'page/User/Sign',
-    'page/Home/index',
-    'page/History/index',
-    'page/GrabOrder/index',
+    'page/CheckLogin/index'
+  ],
+  subpackages: [
+    {
+      root: 'page/User',
+      pages: [
+        'Sign'
+      ]
+    },
+    {
+      root: 'page/Home',
+      pages: [
+        'index'
+      ]
+    },
+    {
+      root: 'page/History',
+      pages: [
+        'index'
+      ]
+    },
+    {
+      root: 'page/GrabOrder',
+      pages: [
+        'index'
+      ]
+    },
+    {
+      root: 'page/Detail',
+      pages: [
+        'index'
+      ]
+    }
   ],
   window: {
     backgroundTextStyle: 'light',
     backgroundColor: '#f5f5f5',
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'white'
   }
 }

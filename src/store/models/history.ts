@@ -2,30 +2,20 @@ import { ModelEffects, ModelReducers, RematchDispatch, Models } from '@rematch/c
 import { RootState } from '../index';
 import { queryHistory } from '../../api/history';
 
-export interface HistoryData {
-  id: number;
-  serialSequence: string;
-  yardName: string;
-  status: string;
-  busiType: string;
-  receiverName: string;
-  kpStatus: string;
-}
-
 export type History = {
+  records: any[];
   total: number;
-  data: HistoryData[];
-  empty: boolean;
+  size: number;
   pages: number;
-  currentId: string;
+  current: number;
 }
 
 const state:History = {
+  records: [],
   total: 0,
-  data: [],
-  empty: true,
+  size: 10,
   pages: 0,
-  currentId: ''
+  current: 1
 }
 const reducers:ModelReducers<History> = {
   save(state, payload) {
@@ -35,20 +25,16 @@ const reducers:ModelReducers<History> = {
 const effects = (dispatch:RematchDispatch<Models>):ModelEffects<RootState> => ({
   async fetchHistory(payload, rootState) {
     const { callback, ...restPayload } = payload;
-    const openId = rootState.common.openId || (await dispatch.common.fetchOpenId());
+    //const openId = rootState.common.openId || (await dispatch.common.fetchOpenId());
     try {
       const response = await queryHistory<History>({
-        openId,
-        pageSize: '10',
+        size: '10',
+        tkDriverId: rootState.user.uid,
         ...restPayload
       });
       if(response) {
-        const data = {
-          ...response,
-          pages: response.total > 10 ? Math.ceil(response.total/10) : 1
-        }
-        this.save(data);
-        callback && callback(data)
+        this.save(response);
+        callback && callback(response)
       }
     } catch(e) {}
   }

@@ -3,14 +3,14 @@ import * as Taro from '@tarojs/taro';
 import { useDispatch, useSelector } from 'react-redux';
 import { RematchDispatch, Models } from '@rematch/core';
 import { View } from '@tarojs/components';
+import TopBarPage from '../../layout/TopBarPage';
 import { RootState } from '../../store';
-import SearchBar from '../../component/SearchBar'
-import classNames from './style/index.module.scss';
-import GrabCard from './component/GradCard';
+import GrabCard from '../../component/GradCard';
+import Empty from '../../component/Empty';
 
 const GrabOrder:React.FC<any> = () => {
   const { grab } = useDispatch<RematchDispatch<Models>>();
-  const { records } = useSelector((state:RootState) => state.grab)
+  const { records } = useSelector((state:RootState) => state.grab);
   Taro.useDidShow(() => {
     grab.fetchGrab({});
   });
@@ -24,19 +24,35 @@ const GrabOrder:React.FC<any> = () => {
     })
   }, [grab]);
   return (
-    <View style='margin-top: 50px'>
-      <SearchBar placeholder='搜索提单号' fixed onSearch={handleSearchGrab}/>
-      <View className={classNames.cardContainer}>
-        {
-          records.map(item => (
-            <GrabCard
-              data={item}
-              onGrab={handleGrab}
-            />
-          ))
-        }
-      </View>
-    </View>
+    <TopBarPage
+      placeholder='搜索提单号' 
+      fixed 
+      dark
+      onSearch={handleSearchGrab}
+    >
+      {
+        records.length ? 
+        <View className='cardContainer'>
+          {
+            records.map(item => (
+              <GrabCard
+                key={item.id}
+                data={item}
+                button={
+                  {
+                    onClick: () => handleGrab(item.id),
+                    className: 'grab-button',
+                    type: 'primary',
+                    text: '抢 单'
+                  }
+                }
+              />
+            ))
+          }
+        </View> : <Empty/>
+      }
+      
+    </TopBarPage>
   )
 }
 

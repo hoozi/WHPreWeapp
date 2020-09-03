@@ -13,3 +13,11 @@ export async function signIn<T>(data:SignInParams) {
     loadingText: '登录中...'
   })
 }
+
+export async function queryCurrentUser<T>() {
+  return request<T>({
+    url: '/admin/user/info',
+    method: 'GET',
+    onlyData: true
+  })
+}

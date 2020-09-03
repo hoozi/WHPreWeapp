@@ -1,14 +1,16 @@
 import request from '../shared/request';
+import { stringify } from 'qs';
 
 interface QueryHistoryParam {
-  pageNo: string;
-  pageSize: string
+  current: number,
+  tkOverFlag: number,
+  tkDriverId: number
 }
 
 export async function queryHistory<T>(data:QueryHistoryParam) {
   return request<T>({
-    url: '/preEmpty/preQueryByPage',
-    data,
+    url: `/act/ctn-yard-info/driver-page?${stringify(data)}`,
+    method: 'GET',
     loadingText: '正在查询',
     onlyData: true
   })

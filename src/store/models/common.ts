@@ -1,6 +1,6 @@
 import { ModelEffects, ModelReducers } from '@rematch/core';
 import { RootState } from '../index';
-import { queryOpendId } from '../../api/common';
+import { uploadFile } from '../../api/common';
 import * as Taro from '@tarojs/taro';
 
 /* interface User {
@@ -14,13 +14,11 @@ import * as Taro from '@tarojs/taro';
 } */
 
 export type Common = {
-  openId: string;
-  tabBarSelected: number;
+  
 }
 
 const state:Common = {
-  openId: '',//'openId1234ertrea_dweeerrr',
-  tabBarSelected: 0
+  
 }
 const reducers:ModelReducers<Common> = {
   save(state, payload) {
@@ -28,7 +26,34 @@ const reducers:ModelReducers<Common> = {
   }
 }
 const effects:ModelEffects<RootState> = {
-  async fetchOpenId() {
+  async uploadFile(payload) {
+    Taro.showLoading({
+      title: '上传中...',
+      mask: true
+    });
+    const { callback, ...restPayload } = payload;
+    try {
+      const response = await uploadFile(restPayload);
+      const res = JSON.parse(response.data)
+      if(res.code === 0) {
+        Taro.showToast({
+          title: '上传成功',
+          icon: 'success',
+          mask: true,
+          duration: 2000,
+          success() {
+            setTimeout(() => {
+              callback && callback();
+            }, 2000)
+          }
+        })
+
+      }
+    } catch(e) {
+      
+    }
+  }
+  /* async fetchOpenId() {
     try {
       const wxResponse = await Taro.login();
       const { code } = wxResponse;
@@ -40,7 +65,7 @@ const effects:ModelEffects<RootState> = {
       }
       return openId;
     } catch(e) {console.log(e)}
-  }
+  } */
 }
 
 export default {

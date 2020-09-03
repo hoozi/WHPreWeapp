@@ -1,0 +1,87 @@
+@import '../../../style/index.scss';
+
+.detailCard {
+  border-radius: 8PX;
+  box-shadow: 0 0 6PX rgba(0, 0, 0, .04);
+  background-color: #fff;
+  //padding:0 12PX;
+  //padding: 12PX 0;
+  overflow: hidden;
+  .detailItem {
+    display: flex;
+    margin-left: 12PX;
+    padding:12PX 0;
+    align-items: center;
+    @extend %bottomHairLine;
+    line-height: 1;
+    .detailName {
+      align-items: flex-start;
+      width: 80PX;
+      color: #999;
+    }
+    .detailValue {
+      flex: 1;
+    }
+    &:last-child:after {
+      display: none;
+    }
+  }
+}
+
+.formList {
+  margin-top: 12PX;
+  .formItem {
+    background-color: #fff;
+    padding:12PX;
+    border-radius: 8PX;
+    box-shadow: 0 0 6PX rgba(0, 0, 0, .04);
+    margin-bottom: 12PX;
+    .formItemContent {
+      display: flex;
+      align-items: center;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .formItemLabel {
+        width: 80PX;
+        color: #999;
+      }
+      .formItemValue {
+        flex: 1;
+        align-items: center;
+        display: flex;
+        .formTextInput {
+          flex: 1;
+        }
+        .formExtra {
+          padding-left: 4PX;
+          color: $color-brand;
+        }
+      }
+    }
+    .formItemImage {
+      margin-top: 8PX;
+      padding-top: 8PX;
+      height: 64PX;
+      @extend %topHairLine;
+    }
+    .imageRadius {
+      border-radius: 8PX;
+      width: 64PX;
+      height: 64PX;
+    }
+  }
+}
+
+.formItem {
+  .detailItem {
+    padding: 0;
+    .detailName,
+    .detailValue {
+      padding: 8PX 0;
+    }
+    .detailValue {
+      @extend %bottomHairLine;
+    }
+  }
+}

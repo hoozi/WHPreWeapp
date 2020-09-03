@@ -1,14 +1,19 @@
+import * as Taro from '@tarojs/taro';
 import request from '../shared/request';
+import { stringify } from 'qs';
+import { getToken } from '../shared/token';
+import { service_url } from '../constants';
 
-interface QueryOpenIdParam {
-  code: string
-}
-
-export async function queryOpendId<T>(data:QueryOpenIdParam) {
-  return request<T>({
-    url: '/wxapi/decryptCode',
-    data,
-    //loadingText: '正在查询',
-    onlyData: true
+export async function uploadFile(data) {
+  const { filePath, formData } = data;
+  return Taro.uploadFile({
+    url: `${service_url}/act/ctn-file/upload?${stringify(formData)}`,
+    filePath,
+    name: 'file',
+    fileName: `file${Date.now()}`,
+    header: {
+      Authorization: `Bearer ${getToken()}`
+    }
   })
 }
+

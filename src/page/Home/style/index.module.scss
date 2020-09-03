@@ -14,7 +14,7 @@
   padding: 16PX;
   padding-bottom: 24PX;
   display: flex;
-  background-color: #fff;
+  background-color: $color-brand-dark;
   align-items: center;
   justify-content: space-between;
   .userContent {
@@ -30,7 +30,7 @@
     right: -50PX;
     top: -85PX;
     border-radius: 100PX;
-    background-color: #f9f9f9;
+    background-color: #4b64e8;
     z-index: 1;
     &.circleBg1 {
       width: 96PX;
@@ -64,18 +64,18 @@
     .at-avatar {
       width: 64PX;
       height: 64PX;
-      border: 4PX solid #f0f0f0;
+      border: 4PX solid #4b64e8;
     }
   }
   .userCardText {
     margin-left: 12PX;
     line-height: 1;
     font-size: 16PX;
-    color: #333;
+    color: #fff;
   }
   .extraText {
     display: block;
-    color:#999;
+    color:#a7b6f6;
     font-size: 14PX;
     margin-top: 8PX;
   }

@@ -1,14 +1,6 @@
 import Taro, { RequestParams } from '@tarojs/taro';
 import { getToken, removeToken } from './token';
-
-const { envVersion } = __wxConfig;
-const seriveUrlMap: {[key:string] : string} = {
-  'develop': 'http://wms.weihuanginfo.com',
-  'trial':   'http://wms.weihuanginfo.com',
-  'release': 'https://www.eporthub.com:8443'
-}
-
-console.log(envVersion)
+import { service_url } from '../constants';
 
 interface CodeMessage {
   [code: string]: string;
@@ -107,7 +99,7 @@ export default function request<T>(options: Options): Promise<T> {
     ...newOptions.header,
     Authorization: getToken() ? `Bearer ${getToken()}` : 'Basic d2VpaHVhbmc6d2VpaHVhbmc='
   }
-  newOptions.url = `${seriveUrlMap[envVersion]}${newOptions.url}`;
+  newOptions.url = `${service_url}${newOptions.url}`;
   return Taro.request(newOptions)
     .then(response => {
       Taro.hideLoading();
