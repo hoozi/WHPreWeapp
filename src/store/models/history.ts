@@ -29,7 +29,7 @@ const effects = (dispatch:RematchDispatch<Models>):ModelEffects<RootState> => ({
     try {
       const response = await queryHistory<History>({
         size: '10',
-        tkDriverId: rootState.user.uid,
+        tkDriverId: Taro.getStorageSync('uid'),
         ...restPayload
       });
       if(response) {

@@ -3,6 +3,7 @@ import { TabItem } from 'taro-ui/types/tabs';
 import { View, Text } from '@tarojs/components';
 import { AtTabs, AtTabsPane } from 'taro-ui';
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 import classNames from './style/index.module.scss';
 
 const tabList:TabItem[] = [
@@ -38,7 +39,7 @@ const Sign:React.FC<any> & {[key: string]:any} = props => {
           <SignIn/>
         </AtTabsPane>
         <AtTabsPane current={1} index={1}>
-          <View>注册</View>
+          <SignUp/>
         </AtTabsPane>
       </AtTabs>
     </View>

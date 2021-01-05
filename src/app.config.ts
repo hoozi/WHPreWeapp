@@ -6,7 +6,8 @@ export default {
     {
       root: 'page/User',
       pages: [
-        'Sign'
+        'Sign',
+        'UpdatePassword'
       ]
     },
     {

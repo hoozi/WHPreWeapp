@@ -4,9 +4,9 @@ import { View, Text, OpenData } from '@tarojs/components';
 import { AtAvatar, AtGrid } from 'taro-ui';
 import menus from './map';
 import classNames from './style/index.module.scss';
+import { removeToken } from '../../shared/token';
 
 const { height, top } = Taro.getMenuButtonBoundingClientRect();
-
 export default () => {
   return (
     <View className={classNames.container}>
@@ -22,7 +22,32 @@ export default () => {
             <Text className={classNames.extraText}>司机</Text>
           </View>
         </View>
-        {/* <View className='iconfont icon-xiayiyeqianjinchakangengduo'/> */}
+        <View className='at-icon at-icon-settings' 
+          style='position: relative; color:#fff; z-index: 11;' 
+          onClick={async () => {
+            const contralList: any[] = [
+              () => {
+                Taro.navigateTo({
+                  url: '/page/User/UpdatePassword'
+                });
+              },
+              () => {
+                removeToken();
+                Taro.removeStorageSync('uid');
+                Taro.removeStorageSync('uname');
+                Taro.redirectTo({
+                  url: '/page/User/Sign'
+                });
+              }
+            ]
+            try {
+              const res = await Taro.showActionSheet({
+                itemList: ['修改密码','退出登录']
+              });
+              contralList[res.tapIndex]();
+            } catch(e) {}
+          }}
+        />
       </View>
       
       <View className={classNames.menuList}>

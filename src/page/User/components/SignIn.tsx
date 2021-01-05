@@ -5,13 +5,13 @@ import { useDispatch } from 'react-redux';
 import { RematchDispatch, Models } from '@rematch/core';
 import { AtButton } from 'taro-ui';
 import { hasError } from '../../../shared/utils';
-import signInList from './signInMap';
+import { signInList } from '../signMap';
+import Password from './Password';
 import classNames from '../style/index.module.scss';
 
 //<Field key={item.name} name={item.name} {...item.options}>
 const SignIn:React.FC<any> = props => {
   const [ form ] = useForm();
-  const [ isPassword, toggleInput ] = React.useState<boolean>(true);
   const { user } = useDispatch<RematchDispatch<Models>>();
   const { validateFields, isFieldsTouched, getFieldsError } = form;
   const handleSignIn = React.useCallback(async () => {
@@ -22,9 +22,6 @@ const SignIn:React.FC<any> = props => {
       console.log(e)
     }
   }, []);
-  const handleChangeInputType = React.useCallback(() => {
-    toggleInput(!isPassword);
-  },[ isPassword ]);
   return (
     <Form
       form={form}
@@ -34,16 +31,15 @@ const SignIn:React.FC<any> = props => {
         {
           signInList.map(item => (
             <View className={classNames.signItem}>
+              <Text style='width: 64px'>{item.title}</Text>
               <View className={classNames.signInputContainer}>
                 <Field key={item.name} getValueFromEvent={e => e.detail.value} name={item.name} {...item.options}>
-                  <Input {...item.props} password={item.name === 'password' && isPassword} className={classNames.textInput}/>
+                  {
+                    item.name === 'password' ?
+                    <Password {...item.props}/> : 
+                    <Input {...item.props} className={classNames.textInput}/>
+                  }
                 </Field>
-                {
-                  item.name === 'password' &&
-                  <View className={classNames.inputExtra} onClick={handleChangeInputType}>
-                    <Text className={`icon icon-${isPassword ? 'xianshikejian' : 'yincangbukejian'}`}/>
-                  </View>
-                }
               </View>
             </View>
           ))

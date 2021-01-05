@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RematchDispatch, Models } from '@rematch/core';
 import { AtButton } from 'taro-ui';
 import { RootState } from '../../store';
+import { service_url } from '../../constants';
 import classNames from './style/index.module.scss';
+import Empty from '../../component/Empty';
 
 interface Row {
   title: string;
@@ -84,6 +86,56 @@ const pageTitleMap:PageTitleMap = {
   'rob_1': '信息反馈'
 }
 
+interface ImageItem {
+  name: string;
+  type: string;
+}
+
+const imageItem: ImageItem[] = [
+  {
+    name: '箱号图片',
+    type: 'ctnImg'
+  },
+  {
+    name: '铅封图片',
+    type: 'sealImg'
+  }
+]
+
+interface FileType {
+  fileType: string;
+  color: string;
+  icon: string
+}
+
+const fileTypes:FileType[] = [
+  {
+    fileType: 'doc|docx',
+    color: '#1890ff',
+    icon: 'word'
+  },
+  {
+    fileType: 'ppt|pptx',
+    color: '#f5222d',
+    icon: 'ppt'
+  },
+  {
+    fileType: 'xlsx|xls',
+    color: '#52c41a',
+    icon: 'excel'
+  },
+  {
+    fileType: 'pdf',
+    color: '#f5222d',
+    icon: 'pdf'
+  },
+  {
+    fileType: 'png|jpg|gif|jpeg',
+    color: '#faad14',
+    icon: 'image'
+  }
+]
+
 export default () => {
   const { grab, common } = useDispatch<RematchDispatch<Models>>();
   const { records } = useSelector((state:RootState) => state.grab);
@@ -101,7 +153,7 @@ export default () => {
   const handleChangeValue = React.useCallback((name:string, value:any) => {
     setPostData({
       ...postData,
-      [name]: value
+      [name]: name === 'ctnNo' ? value.toUpperCase() : value
     });
   }, [setPostData,postData]);
   const handleChooseImage = React.useCallback(async (fileType:string) => {
@@ -128,7 +180,7 @@ export default () => {
     grab.feedBackGrab({
       id,
       ...postData,
-    })
+    });
   }, [grab, postData])
   return (
     <View className='cardContainer cardBtnContainer'>
@@ -136,28 +188,34 @@ export default () => {
         current ? 
         <React.Fragment>
           <View className={classNames.detailCard}>
-            {
-              rows.map(item => {
-                const hidden = item.hidden && item.hidden(current);
-                return (
-                  !hidden ?
-                  <View className={classNames.detailItem}>
-                    <Text className={classNames.detailName}>{item.title}</Text>
-                    <View className={classNames.detailValue}>
-                      <Text>
-                        {
-                          item.render ? item.render(current) :
-                          ( current[item.dataIndex] || '暂无' )
-                        }
-                      </Text>
-                    </View>
-                  </View> : null
-                )
-              })
-            }
+            <View className={classNames.topField}>
+              <View className={classNames.topValue}>{current.barCode || '暂无'}</View>
+              <View className={classNames.topName}>预提码</View>
+            </View>
+            <View style='padding: 12px 0'>
+              {
+                rows.map(item => {
+                  const hidden = item.hidden && item.hidden(current);
+                  return (
+                    !hidden ?
+                    <View className={classNames.detailItem}>
+                      <Text className={classNames.detailName}>{item.title}</Text>
+                      <View className={classNames.detailValue}>
+                        <Text>
+                          {
+                            item.render ? item.render(current) :
+                            ( current[item.dataIndex] || '暂无' )
+                          }
+                        </Text>
+                      </View>
+                    </View> : null
+                  )
+                })
+              }
+            </View>
           </View>
           {
-            (current.orderStatus === 'rob' && current.tkOverFlag === 1) &&
+            current.tkOverFlag === 1 &&
             <View className={classNames.formList}>
             {
               formItem.map(item => (
@@ -165,11 +223,9 @@ export default () => {
                   <View className={classNames.formItemContent}>
                     <Text className={classNames.formItemLabel}>{item.label}</Text>
                     <View className={classNames.formItemValue}>
-                      <Input 
-                        disabled={current.orderStatus === 'carry' && current.tkOverFlag === 0}
-                        value={current[item.name]}
+                      <Input
                         placeholder='请输入' 
-                        placeholderStyle='color: #eee' 
+                        placeholderStyle='color: #ddd' 
                         className={classNames.formTextInput}
                         onInput={e => handleChangeValue(item.name, e.detail.value)}
                       />
@@ -179,7 +235,7 @@ export default () => {
                   { 
                     locImages[item.fileType] ?
                     <View className={classNames.formItemImage}>
-                      <Image className={classNames.imageRadius} src={locImages[item.fileType]} />
+                      <Image mode='aspectFit' className={classNames.imageRadius} src={locImages[item.fileType]} />
                     </View> :
                     null
                   }
@@ -187,6 +243,52 @@ export default () => {
               ))
             }
           </View>
+          }
+          {
+            current.tkOverFlag === 0 &&
+            <View className={classNames.imageContainer}>
+              {
+                current.ctnCustomerFileList.length > 0 &&
+                <View className={classNames.imageCard}>
+                  <View className={classNames.imageName}>客户附件</View>
+                  <View className={classNames.imageValue}>
+                    {
+                      current.ctnCustomerFileList.map(item => {
+                        const fileType = item.fileName.split('.')[1];
+                        const currentFileType = fileTypes.filter(f => f.fileType.indexOf(fileType) > -1)[0] || {
+                          icon: 'unknown',
+                          color: '#c8c8c8'
+                        };
+                        return (
+                          <View className={classNames.attachmentItem} key={item.id}>
+                            <Text className={`icon icon-file-${currentFileType.icon}-fill`} style={{color: currentFileType.color}}/>
+                            <View className={classNames.attachmentContent}>
+                              <Text>{item.fileName}</Text>
+                            </View>
+                          </View>
+                        )
+                      })
+                    }
+                  </View>
+                </View>
+              }
+              {
+                imageItem.map(item => {
+                  return (
+                    <View className={classNames.imageCard} key={item.type}>
+                      <View className={classNames.imageName}>{item.name}</View>
+                      <View className={classNames.imageValue}>
+                        {
+                          current[item.type] ? 
+                          <Image mode='widthFix' src={`${service_url}/${current[item.type]}`}/> :
+                          <Empty text='暂无图片'/>
+                        }
+                      </View>
+                    </View>
+                  )
+                })
+              }
+            </View>
           }
         </React.Fragment> : null
       }

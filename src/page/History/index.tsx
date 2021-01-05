@@ -1,10 +1,10 @@
 import * as React from 'react';
-import * as Taro from '@tarojs/taro';
 import { View } from '@tarojs/components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RematchDispatch, Models } from '@rematch/core';
 import TopBarPage from '../../layout/TopBarPage';
 import { RootState } from '../../store';
+import useList from '../../hook/useList';
 import GrabCard from '../../component/GradCard';
 import Empty from '../../component/Empty';
 
@@ -12,30 +12,34 @@ const indexs:number[] = [1, 0];
 
 const History:React.FC<any> = props => {
   const { grab } = useDispatch<RematchDispatch<Models>>();
-  const { records } = useSelector((state:RootState) => state.grab);
+  const { pages } = useSelector((state:RootState) => state.grab);
   const [tabActive, setTabActive] = React.useState<number>(0);
-  Taro.useDidShow(() => {
-    getHistoryList({
+  const [ list, createList, setParams ] = useList({
+    getList: grab.fetchHistory,
+    pages,
+    initParams: {
       tkOverFlag: indexs[tabActive]
-    })
+    }
   });
-  const getHistoryList = React.useCallback(params => {
-    grab.fetchHistory(params)
-  }, [history]);
   const handleGrabCancel = React.useCallback(id => {
     grab.putGrab({
       id,
-      operationType: 'rob_cancel'
+      operationType: 'rob_cancel',
+      callback() {
+        createList('init');
+      }
     });
   },[]);
   const handleTabChange = React.useCallback(index => {
     if(index !== tabActive) {
       setTabActive(index);
-      getHistoryList({
-        tkOverFlag: indexs[index]
+      setParams({
+        tkOverFlag: indexs[index],
+        current: 1
       });
+      createList('init');
     }
-  }, [tabActive,setTabActive])
+  }, [tabActive,setTabActive]);
   return (
     <TopBarPage
       tabList={[
@@ -52,10 +56,10 @@ const History:React.FC<any> = props => {
       fixed 
     >
       {
-        records.length ? 
+        list.length ? 
         <View className='cardContainer'>
           {
-            records.map(item => (
+            list.map(item => (
               <GrabCard
                 key={item.id}
                 data={item}

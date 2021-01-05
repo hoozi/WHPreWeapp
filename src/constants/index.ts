@@ -14,8 +14,8 @@ export const color = {
 
 const { envVersion } = __wxConfig;
 export const seriveUrlMap: {[key:string] : string} = {
-  'develop': 'http://wms.weihuanginfo.com',
-  'trial':   'http://wms.weihuanginfo.com',
-  'release': 'https://www.eporthub.com:8443'
+  'develop': 'https://common.weihuanginfo.com',
+  'trial':   'https://common.weihuanginfo.com',
+  'release': 'https://common.weihuanginfo.com'
 }
 export const service_url:string = seriveUrlMap[envVersion]

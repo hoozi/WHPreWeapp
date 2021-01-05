@@ -54,7 +54,7 @@
 
 .bottomButton {
   background-color: #fff;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   right: 0;
@@ -66,6 +66,10 @@
     line-height: 48PX;
     font-size: 16PX;
   }
+}
+
+.brand-text {
+  color: $color-brand;
 }
 
 .alert-warning {
@@ -97,7 +101,8 @@
 }
 
 .cardContainer {
-  padding: 12PX;
+  padding: 12PX 12PX 0;
+  padding-bottom: 12PX;
   padding-bottom: calc(constant(safe-area-inset-bottom) + 12PX);
   padding-bottom: calc(env(safe-area-inset-bottom) + 12PX);
   box-sizing: border-box;

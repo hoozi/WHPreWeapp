@@ -2,7 +2,8 @@ import request from '../shared/request';
 import { stringify } from 'qs';
 
 interface GrabParams {
-  current: number
+  current: number,
+  size: number
 }
 
 interface PutGrabParams {
@@ -18,7 +19,7 @@ interface FeedBackGrabParams {
 
 export async function queryGrab<T>(data:GrabParams) {
   return request<T>({
-    url: `/act/ctn-yard-info/driver-page?${stringify(data)}&size=10&orderStatus=loot`,
+    url: `/act/ctn-yard-info/driver-page?${stringify(data)}&orderStatus=loot`,
     method: 'GET',
     loadingText: '查询中...',
     onlyData: true

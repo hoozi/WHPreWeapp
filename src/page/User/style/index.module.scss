@@ -59,17 +59,58 @@
 .signForm {
   padding: 24PX;
   font-size: 15PX;
+  background-color: #fff;
+  &.signUpForm {
+    .signItemContainer {
+      margin-bottom: 24PX;
+      .error {
+        background-color: #fff1f0;
+        color: #f5222d;
+        border-radius: 4PX;
+        padding: 4PX 8PX;
+        font-size: 12PX;
+        margin-top: 4PX;
+        display: block;
+      }
+    } 
+    .signItem {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .signItem {
   @extend %bottomHairLine;
-  padding-bottom: 6PX;
+  padding-bottom: 12PX;
   margin-bottom: 32PX;
+  display: flex;
+  justify-content: space-between;
   .signLabel {
     display: block;
     font-style: 16PX;
     margin-bottom: 8PX;
     //color: #333;
+  }
+}
+.imageContainer {
+  width: 100%;
+  height: 128PX;
+  border-radius: 8PX;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  line-height: 1;
+  text-align: center;
+  text {
+    display: block;
+  }
+  :global {
+    .at-icon {
+      font-size: 24PX;
+      margin-bottom: 8PX;
+    }
   }
 }
 .signButton {
@@ -85,6 +126,7 @@
 .signInputContainer {
   display: flex;
   align-items: center;
+  width: 100%;
   .textInput {
     flex: 1
     //border-bottom: 1px solid $color-border-base
@@ -93,9 +135,19 @@
     :global {
       .icon {
         font-size: 20PX;
-        color: $color-brand;
+        color: #a7b6f6;
       }
     }
   }
 }
 
+.upPasswordItem {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  @extend %bottomHairLine;
+  padding:12PX;
+  text {
+    width: 100PX;
+  }
+}

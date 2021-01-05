@@ -4,37 +4,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RematchDispatch, Models } from '@rematch/core';
 import { View } from '@tarojs/components';
 import TopBarPage from '../../layout/TopBarPage';
+import useList from '../../hook/useList';
 import { RootState } from '../../store';
 import GrabCard from '../../component/GradCard';
 import Empty from '../../component/Empty';
 
 const GrabOrder:React.FC<any> = () => {
   const { grab } = useDispatch<RematchDispatch<Models>>();
-  const { records } = useSelector((state:RootState) => state.grab);
-  Taro.useDidShow(() => {
-    grab.fetchGrab({});
+  const { pages } = useSelector((state:RootState) => state.grab);
+  const [ list, createList, setParams ] = useList({
+    getList: grab.fetchGrab,
+    pages,
+    initParams: {
+      barCode: ''
+    }
   });
-  const handleSearchGrab = React.useCallback((blNo:string) => {
-    grab.fetchGrab({blNo});
-  }, [grab]);
   const handleGrab = React.useCallback((id) => {
     grab.putGrab({
       id,
-      operationType: 'rob'
+      operationType: 'rob',
+      callback() {
+        Taro.navigateTo({
+          url: '/page/History/index'
+        });
+      }
     })
   }, [grab]);
+  const handleSearchGrab = React.useCallback((barCode:string) => {
+    setParams({
+      barCode
+    });
+    createList('init');
+  }, [createList]);
   return (
     <TopBarPage
-      placeholder='搜索提单号' 
+      placeholder='搜索预提号' 
       fixed 
       dark
       onSearch={handleSearchGrab}
     >
       {
-        records.length ? 
+        list.length ? 
         <View className='cardContainer'>
           {
-            records.map(item => (
+            list.map(item => (
               <GrabCard
                 key={item.id}
                 data={item}

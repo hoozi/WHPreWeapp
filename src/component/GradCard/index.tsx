@@ -46,7 +46,7 @@ const GrabCard:React.FC<GrabCardProps> = ({
       </View>
       <View className={classNames.grabCardHeader}>
         <View className={classNames.grabCardHeaderContent}>
-          <Text>{data.barCode}</Text>
+          <Text>{data.barCode || '暂无预提码'}</Text>
           <Text>{data.ctnOperatorCode}/{data.ctnSizeType}</Text>
         </View>
         <Text className={classNames.grabPrice}>{data.feePay}元</Text>

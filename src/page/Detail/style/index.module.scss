@@ -9,22 +9,41 @@
   overflow: hidden;
   .detailItem {
     display: flex;
-    margin-left: 12PX;
-    padding:12PX 0;
+    //margin-left: 12PX;
+    padding:12PX;
     align-items: center;
-    @extend %bottomHairLine;
+    //@extend %bottomHairLine;
     line-height: 1;
     .detailName {
       align-items: flex-start;
-      width: 80PX;
+      width: 90PX;
       color: #999;
     }
     .detailValue {
       flex: 1;
     }
-    &:last-child:after {
-      display: none;
+    &:last-child {
+      &:after {
+        display: none;
+      }
     }
+  }
+}
+
+.topField {
+  padding: 24PX 12PX;
+  text-align: center;
+  position: relative;
+  background-image: linear-gradient(to bottom right, $color-brand-dark, #1890ff);
+  line-height: 1;
+  .topValue {
+    font-size: 24PX;
+    color: #fff;
+  }
+  .topName {
+    margin-top: 8PX;
+    font-size: 16PX;
+    color: #a7b6f6;
   }
 }
 
@@ -83,5 +102,49 @@
     .detailValue {
       @extend %bottomHairLine;
     }
+  }
+}
+
+.imageContainer {
+  margin-top: 12PX;
+}
+
+.imageCard {
+  background-color: #fff;
+  padding:12PX;
+  border-radius: 8PX;
+  box-shadow: 0 0 6PX rgba(0, 0, 0, .04);
+  margin-bottom: 12PX;  
+  .imageName {
+    padding-bottom: 12PX;
+    @extend %bottomHairLine;
+  }
+  .imageValue {
+    padding-top: 12PX;
+    image {
+      display: block;
+      width: 100%;
+    }
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8PX;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  :global {
+    .icon {
+      font-size: 24PX;
+      width: 32PX;
+    }
+  }
+  .attachmentContent {
+    flex: 1;
   }
 }

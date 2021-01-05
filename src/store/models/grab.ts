@@ -25,10 +25,15 @@ const reducers:ModelReducers<Grab> = {
   }
 }
 const effects = (dispatch:RematchDispatch<Models>):ModelEffects<RootState> => ({
-  async fetchGrab(payload) {
+  async fetchGrab(payload, rootState) {
     const { callback, ...restPayload } = payload;
+    const { size, current } = rootState.grab;
     try {
-      const response = await queryGrab<Grab>(restPayload);
+      const response = await queryGrab<Grab>({
+        size,
+        current,
+        ...restPayload
+      });
       if(response) {
         this.save(response);
         callback && callback(response);
@@ -39,11 +44,13 @@ const effects = (dispatch:RematchDispatch<Models>):ModelEffects<RootState> => ({
   },
   async fetchHistory(payload, rootState) {
     const { callback, ...restPayload } = payload;
+    const { current, size } = rootState.grab;
     //const openId = rootState.common.openId || (await dispatch.common.fetchOpenId());
     try {
-      const response = await queryHistory<History>({
-        size: '10',
-        tkDriverId: rootState.user.uid,
+      const response = await queryHistory<Grab>({
+        size,
+        current,
+        tkDriverId: Taro.getStorageSync('uid'),
         ...restPayload
       });
       if(response) {
@@ -53,8 +60,9 @@ const effects = (dispatch:RematchDispatch<Models>):ModelEffects<RootState> => ({
     } catch(e) {}
   },
   async putGrab(payload) {
+    const { callback, ...restPayload } = payload;
     try {
-      const response = await putGrab<any>(payload);
+      const response = await putGrab<any>(restPayload);
       if(response.code === 0) {
         Taro.showToast({
           title: payload.operationType === 'rob' ? '抢单成功' : '取消成功',
@@ -62,13 +70,14 @@ const effects = (dispatch:RematchDispatch<Models>):ModelEffects<RootState> => ({
           mask: true,
           duration: 2000,
           success() {
-            setTimeout(() => {
+            callback && callback();
+            /* setTimeout(() => {
               payload.operationType === 'rob' ? 
               dispatch.grab.fetchGrab({}) :
               dispatch.grab.fetchHistory({
                 tkOverFlag: 1
               });
-            }, 2000)
+            }, 2000) */
           }
         })
       }

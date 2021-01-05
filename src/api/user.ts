@@ -1,5 +1,7 @@
+import * as Taro from '@tarojs/taro';
 import request from '../shared/request';
 import { stringify } from 'qs';
+import { service_url } from '../constants';
 
 interface SignInParams {
   username: string;
@@ -19,5 +21,24 @@ export async function queryCurrentUser<T>() {
     url: '/admin/user/info',
     method: 'GET',
     onlyData: true
+  })
+}
+
+export async function updatePassword<T>(data) {
+  return request<T>({
+    url: '/admin/user/edit',
+    method: 'PUT',
+    data,
+    loadingText: '修改中...'
+  })
+}
+
+export async function signUp(data) {
+  const { filePath, ...rest } = data;
+  return Taro.uploadFile({
+    url: `${service_url}/act/fleet-truck/register?${stringify(rest)}`,
+    filePath,
+    name: 'file',
+    fileName: `file${Date.now()}`
   })
 }
